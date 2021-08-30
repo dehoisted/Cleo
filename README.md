@@ -4,7 +4,7 @@ C++ Malware - An all-purpose token logger.
 Written specifically to target windows machines running Discord.                                                                                               
 Version: 5.0
 
-I am not responsible for what you do with this code.                                                                                                           
+We are not responsible for what you do with this code.                                                                                                           
 If you encounter an error or issue, make an issue [here](https://github.com/dehoisted/Cleo/issues).                                                                   
 Lastly, if code here is used for something else, **give credit where credit is due**.
 
