@@ -22,14 +22,21 @@ Watch Dog | Runs anti analysis in a new thread, kills blacklisted process if ope
 Obfuscation | Automatic compile-time string obfuscation.
 
 # Build
+
 Steps for building/compiling Cleo yourself.
+
 ## Dependencies
-All things here can be installed automatically by running the powershell script [here](https://github.com/dehoisted/Cleo/blob/main/install_dependencies.ps1).
+All dependencies listed can be installed automatically by running the powershell script [here](https://github.com/dehoisted/Cleo/blob/main/install_dependencies.ps1).
 + [LibCurl](https://curl.se/libcurl/c/) - Used by CPR behind the scenes.
 + [CPR](https://github.com/whoshuu/cpr) - Simply a wrapper over LibCurl, used for all HTTP requests in Cleo.
 + [JSON Parser](https://github.com/nlohmann/json) - For parsing discord account information.
 + [String Obfuscator](https://github.com/adamyaxley/Obfuscate) - Used for hiding important strings. (already in Cleo source as "AY_Obfuscate.h")
 
+After installing dependencies, make sure it's all statically linked.
+
+Then, make sure you compile on Release Mode. (x86)
+
+Make an issue [here](https://github.com/dehoisted/Cleo) if you get any compilation errors.
 # Credits                                                                                                                                               
 + [Dehoisted](https://github.com/dehoisted) - Making all of Cleo V5.                                                                                   
 + [Passive](https://github.com/Passive) - Making other versions & coming up with the idea for Cleo itself.                                                               
