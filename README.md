@@ -22,7 +22,9 @@ Anti Analysis | Checks if an analyzing process is open. (exits if detected).
 Watch Dog | Runs anti analysis in a new thread, kills blacklisted process if open.
 Obfuscation | Automatic compile-time string obfuscation.
 
-# Dependencies
+# Build
+Steps for building/compiling Cleo yourself.
+## Dependencies
 All things here can be installed automatically by running the powershell script [here](https://github.com/dehoisted/Cleo/blob/main/install_dependencies.ps1).
 + [LibCurl](https://curl.se/libcurl/c/) - Used by CPR behind the scenes.
 + [CPR](https://github.com/whoshuu/cpr) - Simply a wrapper over LibCurl, used for all HTTP requests in Cleo.
