@@ -1,5 +1,5 @@
 # Cleo
-![image](https://user-images.githubusercontent.com/75084509/131268128-a2db5a8d-b687-44c5-be88-24d9f2e807eb.png)                                                      
+![image](https://images-ext-2.discordapp.net/external/E6TLOZylKls5WKxD6XijIAAnh7yiVgRN3fax3Vo7_f0/https/repository-images.githubusercontent.com/365388923/06101b80-b060-11eb-9196-5b89343294ab?width=500&height=375)                                                      
 C++ Malware - An all-purpose token logger.                                                                                                                         
 Written specifically to target windows machines running Discord.                                                                                               
 Version: 5.0
