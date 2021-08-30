@@ -32,11 +32,10 @@ All dependencies listed can be installed automatically by running the powershell
 + [JSON Parser](https://github.com/nlohmann/json) - For parsing discord account information.
 + [String Obfuscator](https://github.com/adamyaxley/Obfuscate) - Used for hiding important strings. (already in Cleo source as "AY_Obfuscate.h")
 
-After installing dependencies, make sure it's all statically linked.
-
-Then, make sure you compile on Release Mode. (x86)
-
+After installing dependencies, make sure it's all statically linked.                                                                                            
+Then, make sure you compile on Release Mode. (x86)                                                                                                              
 Make an issue [here](https://github.com/dehoisted/Cleo) if you get any compilation errors.
+
 # Credits                                                                                                                                               
 + [Dehoisted](https://github.com/dehoisted) - Making all of Cleo V5.                                                                                   
 + [Passive](https://github.com/Passive) - Making other versions & coming up with the idea for Cleo itself.                                                               
