@@ -6,7 +6,7 @@ Version: 5.0
 
 I am not responsible for what you do with this code.                                                                                                           
 If you encounter an error or issue, make an issue [here](https://github.com/dehoisted/Cleo/issues).                                                                   
-Lasty, if code here is used for something else, **give credit where credit is due**.
+Lastly, if code here is used for something else, **give credit where credit is due**.
 
 # Features
 Note: All info grabbed will be sent to the given webhook.
