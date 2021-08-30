@@ -29,17 +29,6 @@ All things here can be installed automatically by running the powershell script 
 + [JSON Parser](https://github.com/nlohmann/json) - For parsing discord account information.
 + [String Obfuscator](https://github.com/adamyaxley/Obfuscate) - Used for hiding important strings. (already in Cleo source as "AY_Obfuscate.h")
 
-# Building
-In order to build Cleo you must first install the needed dependencies! **This is vital to ensure you don't make a false issue**
-
-#### Use `git clone` to clone the repository!
-```
-git clone https://github.com/dehoisted/Cleo.git
-cd ./Cleo
-```
-
-When running the powershell script **run it as administrator**.
-
 # Credits                                                                                                                                               
 + [Dehoisted](https://github.com/dehoisted) - Making all of Cleo V5.                                                                                   
 + [Passive](https://github.com/Passive) - Making other versions & coming up with the idea for Cleo itself.                                                               
