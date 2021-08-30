@@ -1,3 +1,4 @@
+extern "C++" {
 #pragma once
 //Uncomment the macros below if you get compilation errors. (though they should already be in the preprocessor according to the vs project)
 //#define _CRT_SECURE_NO_WARNINGS
@@ -8,3 +9,4 @@
 #include "Modules.h" // Includes "Config.h"
 #include "User.h"
 #include "Anti.h"
+}
