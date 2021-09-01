@@ -22,7 +22,6 @@ BOOL Anti::IsWow64()
 	return bIsWow64;
 }
 
-// Runs in seperate thread
 void Anti::check_usernames()
 {
 	char szUsername[1024];
