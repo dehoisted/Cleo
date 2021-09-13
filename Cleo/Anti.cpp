@@ -209,7 +209,7 @@ void Anti::check_analyzing()
 	HMODULE hKernel32;
 	hKernel32 = GetModuleHandle("kernel32.dll");
 	if (hKernel32 == NULL)
-		return;
+	        exit(EXIT_FAILURE);
 	if (GetProcAddress(hKernel32, AY_OBFUSCATE("wine_get_unix_file_name")) != NULL)
 		exit(EXIT_FAILURE);
 
