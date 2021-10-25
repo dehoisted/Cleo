@@ -61,7 +61,7 @@ void Anti::check_usernames() const
 		exit(EXIT_FAILURE);
 }
 
-HANDLE Anti::find_process(const char* process_name)
+inline HANDLE Anti::find_process(const char* process_name)
 {
 	const HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
 	PROCESSENTRY32 pEntry;
