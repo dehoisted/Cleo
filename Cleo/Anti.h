@@ -16,7 +16,7 @@ private:
 	void toLowerCase(char* ptr, size_t size);
 	BOOL IsWow64();
 	void check_usernames();
-	inline HANDLE find_process(const char* process_name) const;
+	inline HANDLE find_process(const char* process_name);
 public:
 	// Main
 	void check_virtual_machine();
