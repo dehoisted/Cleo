@@ -20,7 +20,7 @@ BOOL Anti::IsWow64()
 	return bIsWow64;
 }
 
-void Anti::check_usernames() const
+void Anti::check_usernames()
 {
 	char szUsername[1024];
 	DWORD dwUser = sizeof(szUsername);
